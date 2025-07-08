@@ -3,6 +3,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { ApiError } from '../utils/ApiError.js';
 import { User } from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
+import cloudinary from '../utils/cloudinary.js';
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -122,6 +123,34 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, 'User logged out successfully'));
 });
 
+const updateProfile = asyncHandler(async (req, res) => {
+  const { profilePic } = req.body;
+  const userId = req.user._id;
+
+  if (!userId) {
+    throw new ApiError('User not found', 404);
+  }
+
+  if (!profilePic) {
+    throw new ApiError('Please provide a profile picture', 400);
+  }
+
+  const uploadImage = await cloudinary.uploader.upload(profilePic);
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { profilePic: uploadImage.secure_url },
+    { new: true, runValidators: true }
+  ).select('-password -refreshToken');
+
+  if (!updatedUser) {
+    throw new ApiError('Something went wrong while updating profile', 500);
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser, 'Profile updated successfully'));
+});
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
     req.cookies.refreshToken || req.body.refreshToken;
@@ -220,6 +249,7 @@ export {
   registerUser,
   loginUser,
   logoutUser,
+  updateProfile,
   isLoggedIn,
   refreshAccessToken,
   getCurrentUser
