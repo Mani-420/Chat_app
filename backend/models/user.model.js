@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 const userSchema = new Schema(
   {
@@ -18,11 +18,10 @@ const userSchema = new Schema(
       unique: true,
       lowercase: true
     },
-    avatar: {
-      type: String // cloudinary url
-    },
-    coverImage: {
-      type: String // cloudinary url
+    profilePic: {
+      type: String,
+      default:
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fprojets-termins--533817362089569838%2F&psig=AOvVaw0mFISmxzHJdyJQRa2DijLJ&ust=1752075490919000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCPi5tvvLrY4DFQAAAAAdAAAAABAE'
     },
     password: {
       type: String,
@@ -41,12 +40,12 @@ const userSchema = new Schema(
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await bcryptjs.hash(this.password, 10);
   next();
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  return await bcryptjs.compare(password, this.password);
 };
 
 userSchema.methods.generateAccessToken = function () {
