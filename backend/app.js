@@ -21,7 +21,7 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // Routes Import
-// import userRoute from './routes/user.route.js';
+import userRoute from './routes/user.route.js';
 // import blogRoute from './routes/blogs.route.js';
 // // import commentRoute from './routes/comments.route.js';
 // import reviewRoute from './routes/reviews.route.js';
@@ -29,7 +29,7 @@ app.use(cookieParser());
 // import donateRoute from './routes/donate.route.js';
 
 // Routes Declaration
-// app.use('/api/v1/users', userRoute);
+app.use('/api/v1/users', userRoute);
 // app.use('/api/v1/blogs', blogRoute);
 // app.use('/api/v1/blogs/:blogId/reviews', reviewRoute);
 // app.use('/api/v1/ai', aiRoutes);
