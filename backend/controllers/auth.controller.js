@@ -3,7 +3,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { ApiError } from '../utils/ApiError.js';
 import { User } from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
-import cloudinary from '../utils/cloudinary.js';
+import { cloudinary } from '../utils/cloudinary.js';
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -181,7 +181,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     };
 
     const { accessToken, newRefreshToken } =
-      await generateAccessAndRefereshTokens(user._id);
+      await generateAccessTokenAndRefreshToken(user._id);
 
     return res
       .status(200)
