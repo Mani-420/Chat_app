@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 // Importing Components
 import Navbar from './components/Navbar';
@@ -34,28 +35,41 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={authUser ? <HomePage /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/login"
-          element={!authUser ? <Login /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/register"
-          element={!authUser ? <Register /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/settings"
-          element={authUser ? <Settings /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/profile"
-          element={authUser ? <Profile /> : <Navigate to="/login" />}
-        />
-      </Routes>
+      <main className="pt-16">
+        <Routes>
+          <Route
+            path="/"
+            element={authUser ? <HomePage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/login"
+            element={!authUser ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/register"
+            element={!authUser ? <Register /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/settings"
+            element={authUser ? <Settings /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/profile"
+            element={authUser ? <Profile /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </main>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          className: 'bg-base-100 text-base-content',
+          style: {
+            fontSize: '0.875rem',
+            padding: '0.5rem 1rem'
+          }
+        }}
+      />
     </BrowserRouter>
   );
 }
