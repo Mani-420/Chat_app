@@ -80,7 +80,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Strict'
   };
 
   return res
@@ -113,7 +114,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Strict'
   };
 
   return res
@@ -200,35 +202,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const isLoggedIn = asyncHandler(async (req, res) => {
-  const accessToken =
-    req.cookies.accessToken ||
-    req.headers.authorization?.split(' ')[1] ||
-    req.body.accessToken;
-
-  if (!accessToken) {
-    throw new ApiError(401, 'Unauthorized request');
-  }
-
-  try {
-    const decodedToken = jwt.verify(
-      accessToken,
-      process.env.ACCESS_TOKEN_SECRET
-    );
-
-    const user = await User.findById(decodedToken?._id).select(
-      '-password -refreshToken'
-    );
-
-    if (!user) {
-      throw new ApiError(401, 'Invalid access token');
-    }
-
-    return res
-      .status(200)
-      .json(new ApiResponse(200, user, 'User is logged in'));
-  } catch (error) {
-    throw new ApiError(401, error?.message || 'Invalid or expired token');
-  }
+  // req.user is already available from verifyJWT middleware
+  return res
+    .status(200)
+    .json(new ApiResponse(200, req.user, 'User is logged in'));
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
