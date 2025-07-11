@@ -60,7 +60,7 @@ function App() {
         </Routes>
       </main>
       <Toaster
-        position="top-right"
+        position="top-center"
         reverseOrder={false}
         toastOptions={{
           className: 'bg-base-100 text-base-content',
