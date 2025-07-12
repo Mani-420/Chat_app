@@ -31,11 +31,6 @@ function Navbar() {
                   <User className="size-5" />
                   <span className="hidden sm:inline">Profile</span>
                 </Link>
-
-                <button className="flex gap-2 items-center" onClick={logout}>
-                  <LogOut className="size-5" />
-                  <span className="hidden sm:inline">Logout</span>
-                </button>
                 <Link
                   to={'/settings'}
                   className={`
@@ -46,6 +41,10 @@ function Navbar() {
                   <Settings className="w-4 h-4" />
                   <span className="hidden sm:inline">Settings</span>
                 </Link>
+                <button className="flex gap-2 items-center" onClick={logout}>
+                  <LogOut className="size-5" />
+                  <span className="hidden sm:inline">Logout</span>
+                </button>
               </>
             )}
 
