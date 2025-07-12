@@ -17,7 +17,7 @@ import Profile from './pages/Profile';
 
 function App() {
   // Initialize Zustand store for authentication
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
   const { theme } = useThemeStore();
 
   useEffect(() => {
@@ -25,6 +25,7 @@ function App() {
   }, [checkAuth]);
 
   console.log('Auth User:', authUser);
+  console.log('Online Users:', onlineUsers);
 
   if (isCheckingAuth && !authUser) {
     return (
