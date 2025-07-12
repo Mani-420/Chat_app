@@ -4,6 +4,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { Message } from '../models/message.model.js';
 import { User } from '../models/user.model.js';
 import cloudinary from '../utils/cloudinary.js';
+import { getReceiverSocketId, io } from '../socket/socketHandler.js';
 
 export const getAllUsers = asyncHandler(async (req, res) => {
   const loggedInUserId = req.user._id;
@@ -87,9 +88,14 @@ export const sendMessage = asyncHandler(async (req, res) => {
     throw new ApiError('Failed to send message', 500);
   }
 
-  const populatedMessage = await Message.findById(message._id)
+  const populatedMessage = await message
     .populate('sender', 'username profilePic')
     .populate('receiver', 'username profilePic');
+
+  const receiverSocketId = getReceiverSocketId(receiverId);
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit('newMessage', populatedMessage);
+  }
 
   return res
     .status(201)
