@@ -3,9 +3,9 @@ import { useEffect, useRef } from 'react';
 
 import ChattingHeader from './ChattingHeader';
 import MessageInput from './MessageInput';
-import MessageTemplate from './skeletons/MessageTemplate';
+import MessageTemplate from './templates/MessageTemplate';
 import { useAuthStore } from '../store/useAuthStore';
-import { formatMessageTime } from '../lib/utils';
+import { formatMessageTime } from '../constants/date.js';
 
 const ChatContainer = () => {
   const {
