@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { app, io, server } from './socket/socketHandler.js';
+import { io, server } from './socket/socketHandler.js';
+const app = express();
 
 // CORS Middleware
 app.use(
@@ -44,4 +45,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-export { app };
+export default app;

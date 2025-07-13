@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import connectDB from './db/index.js';
-import { app, io, server } from './socket/socketHandler.js';
+import { server } from './socket/socketHandler.js';
 
 dotenv.config({ path: './.env' });
 
