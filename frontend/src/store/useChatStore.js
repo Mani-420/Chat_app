@@ -10,6 +10,9 @@ export const useChatStore = create((set, get) => ({
   isUsersLoading: false,
   isMessagesLoading: false,
   onlineUsers: [],
+  aiMessages: [],
+  isAiLoading: false,
+  isAiChatSelected: false,
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -53,6 +56,40 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+  selectAiChat: () => {
+    set({ selectedUser: null, messages: [], isAiChatSelected: true });
+  },
+
+  sendMessageToAi: async (message) => {
+    set({ isAiLoading: true });
+    try {
+      const response = await axiosInstance.post('/ai/chat', {
+        message: message.text
+      });
+      set({
+        aiMessages: response.data.data,
+        isAiLoading: false
+      });
+      toast.success('AI response received');
+    } catch (error) {
+      console.error('Failed to get AI response:', error);
+      toast.error('Failed to get AI response');
+      set({ isAiLoading: false });
+    }
+  },
+
+  getAiConversation: async () => {
+    set({ isAiLoading: true });
+    try {
+      const response = await axiosInstance.get('/ai/conversation');
+      set({ aiMessages: response.data.data, isAiLoading: false });
+    } catch (error) {
+      console.error('Failed to load AI conversation:', error);
+      toast.error('Failed to load AI conversation');
+      set({ isAiLoading: false });
+    }
+  },
+
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser?._id) return;
@@ -72,6 +109,6 @@ export const useChatStore = create((set, get) => ({
   },
 
   setSelectedUser: (user) => {
-    set({ selectedUser: user });
+    set({ selectedUser: user, isAiChatSelected: false });
   }
 }));
