@@ -17,7 +17,7 @@ class AIService {
       return response.text() || 'No response from AI';
     } catch (error) {
       console.error('Error generating AI response:', error);
-      throw new Error('Failed to generate AI response');
+      return "Hello! I'm currently experiencing high traffic. Please try again later.";
     }
   }
 
