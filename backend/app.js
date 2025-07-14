@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { io, server } from './socket/socketHandler.js';
 const app = express();
 
 // CORS Middleware
@@ -22,12 +21,12 @@ app.use(cookieParser());
 // Routes Import
 import userRoute from './routes/user.route.js';
 import messageRoute from './routes/message.route.js';
-// import aiRoutes from './routes/ai.routes.js';
+import aiRoutes from './routes/ai.route.js';
 
 // Routes Declaration
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/messages', messageRoute);
-// app.use('/api/v1/ai', aiRoutes);
+app.use('/api/v1/ai', aiRoutes);
 
 // 404 handler for unknown API routes
 app.use((req, res, next) => {
