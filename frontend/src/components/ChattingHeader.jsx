@@ -1,10 +1,29 @@
-import { X } from 'lucide-react';
+import { X, Bot, User } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import { useChatStore } from '../store/useChatStore';
 
 const ChattingHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore();
-  const { onlineUsers } = useAuthStore();
+  const { selectedUser, setSelectedUser, isAiChatSelected } = useChatStore();
+  const { onlineUsers = [] } = useAuthStore();
+
+  if (isAiChatSelected) {
+    return (
+      <header className="border-b border-base-300 p-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+            <Bot className="w-5 h-5 text-white" />
+          </div>
+
+          <div>
+            <h3 className="font-medium">AI Assistant</h3>
+            <p className="text-sm text-base-content/70">
+              🤖 Always online • Powered by Google Gemini
+            </p>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <div className="p-2.5 border-b border-base-300">

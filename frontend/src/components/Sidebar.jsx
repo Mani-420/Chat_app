@@ -2,11 +2,18 @@ import { useEffect, useState } from 'react';
 import { useChatStore } from '../store/useChatStore';
 import { useAuthStore } from '../store/useAuthStore';
 import SidebarTemplate from './templates/SidebarTemplate';
-import { Users } from 'lucide-react';
+import { Bot, Users } from 'lucide-react';
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } =
-    useChatStore();
+  const {
+    getUsers,
+    isAiChatSelected,
+    selectAiChat,
+    users,
+    selectedUser,
+    setSelectedUser,
+    isUsersLoading
+  } = useChatStore();
 
   const { onlineUsers = [] } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
@@ -46,10 +53,41 @@ const Sidebar = () => {
       </div>
 
       <div className="overflow-y-auto w-full py-3">
+        <div className="mb-4">
+          <div
+            className={`
+              w-full p-3 flex items-center gap-2 hover:bg-base-300 transition-colors cursor-pointer
+              ${isAiChatSelected ? 'bg-base-300' : ''}
+            `}
+            onClick={() => selectAiChat()}
+          >
+            <div className="relative mx-auto lg:mx-0">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                <Bot className="w-6 h-6 text-white" />
+              </div>
+              {/* Always show as online */}
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+            </div>
+            <div className="hidden lg:block text-left min-w-0">
+              <div className="font-medium truncate">AI Assistant</div>
+              <div className="text-sm text-base-content/70">
+                Always available
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="divider my-1 px-3">
+          <Users className="w-4 h-4" />
+        </div>
+
         {filteredUsers.map((user) => (
           <button
             key={user._id}
-            onClick={() => setSelectedUser(user)}
+            onClick={() => {
+              setSelectedUser(user);
+            }}
             className={`
               w-full p-3 flex items-center gap-3
               hover:bg-base-300 transition-colors
