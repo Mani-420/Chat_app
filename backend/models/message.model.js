@@ -1,6 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import jwt from 'jsonwebtoken';
-import bcryptjs from 'bcryptjs';
 
 const messageSchema = new Schema(
   {

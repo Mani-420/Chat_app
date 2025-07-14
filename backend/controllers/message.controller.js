@@ -58,14 +58,9 @@ export const sendMessage = asyncHandler(async (req, res) => {
   const { text, image } = req.body;
   const senderId = req.user._id;
 
-  if (!receiverId || (!text && !image)) {
-    throw new ApiError('User ID and message content are required', 400);
-  }
-
-  const receiver = await User.findById(receiverId);
-  if (!receiver) {
-    throw new ApiError('Receiver not found', 404);
-  }
+  // if (!receiverId || (!text && !image)) {
+  //   throw new ApiError('User ID and message content are required', 400);
+  // }
 
   let imageUrl;
   if (image) {
@@ -78,26 +73,22 @@ export const sendMessage = asyncHandler(async (req, res) => {
   }
 
   const message = await Message.create({
-    sender: senderId,
-    receiver: receiverId,
+    senderId,
+    receiverId,
     text,
-    image: imageUrl
+    image: image ? imageUrl : null
   });
 
   if (!message) {
     throw new ApiError('Failed to send message', 500);
   }
 
-  const populatedMessage = await message
-    .populate('sender', 'username profilePic')
-    .populate('receiver', 'username profilePic');
-
   const receiverSocketId = getReceiverSocketId(receiverId);
   if (receiverSocketId) {
-    io.to(receiverSocketId).emit('newMessage', populatedMessage);
+    io.to(receiverSocketId).emit('newMessage', message);
   }
 
   return res
     .status(201)
-    .json(new ApiResponse(201, populatedMessage, 'Message sent successfully'));
+    .json(new ApiResponse(201, message, 'Message sent successfully'));
 });
