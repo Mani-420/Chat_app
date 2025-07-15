@@ -1,5 +1,5 @@
 import { useChatStore } from '../store/useChatStore';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 
 import ChattingHeader from './ChattingHeader';
@@ -42,7 +42,21 @@ const ChatContainer = () => {
     getAiConversation
   ]);
 
-  const displayMessages = isAiChatSelected ? aiMessages : messages;
+  const displayMessages = useMemo(() => {
+    console.log('Debug - isAiChatSelected:', isAiChatSelected);
+    console.log('Debug - aiMessages:', aiMessages, 'Type:', typeof aiMessages);
+    console.log('Debug - messages:', messages, 'Type:', typeof messages);
+
+    const result = isAiChatSelected ? aiMessages || [] : messages || [];
+    console.log(
+      'Debug - displayMessages result:',
+      result,
+      'IsArray:',
+      Array.isArray(result)
+    );
+
+    return result;
+  }, [isAiChatSelected, aiMessages, messages]);
   const isLoading = isAiChatSelected ? isAiLoading : isMessagesLoading;
 
   useEffect(() => {
@@ -105,6 +119,14 @@ const ChatContainer = () => {
               </div>
 
               <div className="chat-bubble">
+                {/* Display image if it exists */}
+                {!isAiChatSelected && message.image && (
+                  <img
+                    src={message.image}
+                    alt="Sent image"
+                    className="w-48 h-48 object-cover rounded-lg mb-2"
+                  />
+                )}
                 {isAiChatSelected ? message.content : message.text}
               </div>
 

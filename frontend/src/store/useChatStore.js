@@ -43,6 +43,12 @@ export const useChatStore = create((set, get) => ({
   sendMessage: async (message) => {
     const { selectedUser, messages } = get();
 
+    console.log('Store received from MessageInput:', message); // Add this
+    console.log(
+      'Image data length:',
+      message.image ? message.image.length : 'No image'
+    );
+
     try {
       const response = await axiosInstance.post(
         `/messages/send/${selectedUser._id}`,
@@ -63,12 +69,15 @@ export const useChatStore = create((set, get) => ({
   sendMessageToAi: async (message) => {
     const { aiMessages } = get();
     set({ isAiLoading: true });
+
     try {
       const response = await axiosInstance.post('/ai/chat', {
         message: message.text
       });
+      const messagesArray =
+        response.data.data.messages || response.data.data || [];
       set({
-        aiMessages: response.data.data,
+        aiMessages: messagesArray,
         isAiLoading: false
       });
     } catch (error) {
@@ -82,7 +91,8 @@ export const useChatStore = create((set, get) => ({
     set({ isAiLoading: true });
     try {
       const response = await axiosInstance.get('/ai/conversation');
-      set({ aiMessages: response.data.data, isAiLoading: false });
+      const messagesArray = response.data.data.messages || [];
+      set({ aiMessages: messagesArray, isAiLoading: false });
     } catch (error) {
       console.error('Failed to load AI conversation:', error);
       toast.error('Failed to load AI conversation');
