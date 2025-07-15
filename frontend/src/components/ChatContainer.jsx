@@ -1,5 +1,6 @@
 import { useChatStore } from '../store/useChatStore';
 import { useEffect, useRef } from 'react';
+import { Loader2 } from 'lucide-react';
 
 import ChattingHeader from './ChattingHeader';
 import MessageInput from './MessageInput';
@@ -46,7 +47,12 @@ const ChatContainer = () => {
 
   useEffect(() => {
     if (messageEndRef.current && displayMessages.length > 0) {
-      messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        messageEndRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end'
+        });
+      }, 100);
     }
   }, [displayMessages]);
 
@@ -64,14 +70,14 @@ const ChatContainer = () => {
     <div className="flex-1 flex flex-col overflow-auto">
       <ChattingHeader />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 chat-container">
         {isLoading ? (
           <MessageTemplate />
         ) : (
           displayMessages.map((message) => (
             <div
               key={message._id}
-              className={`chat ${
+              className={`chat animate-fade-in ${
                 isAiChatSelected
                   ? message.role === 'user'
                     ? 'chat-end'
@@ -89,7 +95,7 @@ const ChatContainer = () => {
                       isAiChatSelected
                         ? message.role === 'user'
                           ? authUser.profilePic || '/avatar.png'
-                          : '/ai-avatar.png' // You can add an AI avatar
+                          : '/aiAvatar.png' // You can add an AI avatar
                         : message.senderId === authUser._id
                         ? authUser.profilePic || '/avatar.png'
                         : selectedUser.profilePic || '/avatar.png'
@@ -108,6 +114,20 @@ const ChatContainer = () => {
             </div>
           ))
         )}
+        {isAiChatSelected && isAiLoading && (
+          <div className="chat chat-start ai-thinking">
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img alt="AI avatar" src="/avatar.png" />
+              </div>
+            </div>
+            <div className="chat-bubble flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">AI is thinking...</span>
+            </div>
+          </div>
+        )}
+        <div ref={messageEndRef} />
       </div>
 
       <MessageInput />

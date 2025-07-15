@@ -1,13 +1,14 @@
 import { useRef, useState } from 'react';
 import { useChatStore } from '../store/useChatStore';
-import { Image, Send, X } from 'lucide-react';
+import { Image, Send, X, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const MessageInput = () => {
   const [text, setText] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const { sendMessage, isAiChatSelected, sendMessageToAi } = useChatStore();
+  const { sendMessage, isAiChatSelected, sendMessageToAi, isAiLoading } =
+    useChatStore();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -80,9 +81,14 @@ const MessageInput = () => {
           <input
             type="text"
             className="w-full input input-bordered rounded-lg input-sm sm:input-md"
-            placeholder="Type a message..."
+            placeholder={
+              isAiChatSelected && isAiLoading
+                ? 'AI is responding...'
+                : 'Type a message...'
+            }
             value={text}
             onChange={(e) => setText(e.target.value)}
+            disabled={isAiChatSelected && isAiLoading}
           />
           <input
             type="file"
@@ -105,9 +111,15 @@ const MessageInput = () => {
         <button
           type="submit"
           className="btn btn-sm btn-circle"
-          disabled={!text.trim() && !imagePreview}
+          disabled={
+            (!text.trim() && !imagePreview) || (isAiChatSelected && isAiLoading)
+          }
         >
-          <Send size={22} />
+          {isAiChatSelected && isAiLoading ? (
+            <Loader2 size={22} className="animate-spin" />
+          ) : (
+            <Send size={22} />
+          )}
         </button>
       </form>
     </div>
