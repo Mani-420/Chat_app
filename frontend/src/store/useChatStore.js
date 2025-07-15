@@ -61,6 +61,7 @@ export const useChatStore = create((set, get) => ({
   },
 
   sendMessageToAi: async (message) => {
+    const { aiMessages } = get();
     set({ isAiLoading: true });
     try {
       const response = await axiosInstance.post('/ai/chat', {
@@ -70,11 +71,10 @@ export const useChatStore = create((set, get) => ({
         aiMessages: response.data.data,
         isAiLoading: false
       });
-      toast.success('AI response received');
     } catch (error) {
       console.error('Failed to get AI response:', error);
       toast.error('Failed to get AI response');
-      set({ isAiLoading: false });
+      set({ aiMessages: aiMessages, isAiLoading: false });
     }
   },
 
