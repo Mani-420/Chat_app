@@ -77,6 +77,27 @@ https://github.com/Mani-420/Chat_app/assets/your-video.mp4
 
 ![Image](https://github.com/user-attachments/assets/64c0716f-6ba3-4110-9303-20bd748a49bb)
 
+## Key Learnings
+### Through building this project, I gained experience in:
+
+- Real-time communication implementation with Socket.IO
+- State management using Zustand for React applications
+- AI API integration for enhanced user interactions
+- File upload and cloud storage management
+- JWT authentication with refresh token strategy
+- MongoDB database design and operations
+- Responsive design principles and implementation
+
+##Challenges Overcome
+- Socket Connection Management - Handling connection states and cleanup
+- Nested Data Structures - Managing complex user and message data
+- Real-time Synchronization - Ensuring messages sync across clients
+- Image Optimization - Handling large file uploads efficiently
+- State Persistence - Maintaining user state across sessions
+
+## GitHub: [@Mani-420](https://github.com/Mani-420)
+## LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/abdul-rehman-7068aa315/)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -154,24 +175,3 @@ POST /api/messages/send/:id - Send message
 ### AI Chat
 POST /api/ai/chat - Send message to AI
 GET /api/ai/conversation - Get AI conversation
-
-## Key Learnings
-### Through building this project, I gained experience in:
-
-- Real-time communication implementation with Socket.IO
-- State management using Zustand for React applications
-- AI API integration for enhanced user interactions
-- File upload and cloud storage management
-- JWT authentication with refresh token strategy
-- MongoDB database design and operations
-- Responsive design principles and implementation
-
-##Challenges Overcome
-- Socket Connection Management - Handling connection states and cleanup
-- Nested Data Structures - Managing complex user and message data
-- Real-time Synchronization - Ensuring messages sync across clients
-- Image Optimization - Handling large file uploads efficiently
-- State Persistence - Maintaining user state across sessions
-
-## GitHub: [@Mani-420](https://github.com/Mani-420)
-## LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/abdul-rehman-7068aa315/)
