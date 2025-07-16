@@ -88,7 +88,7 @@ https://github.com/Mani-420/Chat_app/assets/your-video.mp4
 - MongoDB database design and operations
 - Responsive design principles and implementation
 
-##Challenges Overcome
+## Challenges Overcome
 - Socket Connection Management - Handling connection states and cleanup
 - Nested Data Structures - Managing complex user and message data
 - Real-time Synchronization - Ensuring messages sync across clients
