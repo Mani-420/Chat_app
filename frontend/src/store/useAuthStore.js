@@ -12,6 +12,9 @@ export const useAuthStore = create((set, get) => ({
   isUpdatingProfile: false,
   isCheckingAuth: true,
   socket: null,
+  onlineUsers: [],
+
+  // onlineUsers
 
   checkAuth: async () => {
     try {
@@ -48,7 +51,7 @@ export const useAuthStore = create((set, get) => ({
   },
 
   login: async (userData) => {
-    set({ isLoggingIn: true });
+    set({ isLoggingIn: true, onlineUsers: [] });
     try {
       const response = await axiosInstance.post('/users/login', userData);
       set({ authUser: response.data.data });
@@ -96,16 +99,23 @@ export const useAuthStore = create((set, get) => ({
   // Socket connection logic
   connectSocket: () => {
     const { authUser } = get();
+
+    const userId = authUser?.user?._id || authUser._id;
+    if (!userId) {
+      console.log('No user ID found, cannot connect socket');
+      return;
+    }
+
     if (!authUser || get().socket?.connected) {
       return; // Don't connect if not authenticated
     }
     const socket = io(BASE_URL, {
-      query: { userId: authUser._id }
+      query: { userId: userId }
     });
     socket.connect();
     set({ socket: socket });
-    socket.on('getAllOnlineUsers', (usersIds) => {
-      set({ onlineUsers: usersIds });
+    socket.on('getOnlineUsers', (userIds) => {
+      set({ onlineUsers: userIds });
     });
   },
   disconnectSocket: () => {
