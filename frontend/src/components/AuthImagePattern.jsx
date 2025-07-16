@@ -17,6 +17,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
         <div className="grid grid-cols-3 gap-3 mb-8">
           {[...Array(9)].map((_, i) => (
             <img
+              key={i}
               src={images[i]}
               alt={`Auth pattern ${i + 1}`}
               className="aspect-square rounded-2xl object-cover"
