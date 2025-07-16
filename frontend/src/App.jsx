@@ -51,7 +51,7 @@ function App() {
             />
             <Route
               path="/register"
-              element={!authUser ? <Register /> : <Navigate to="/" />}
+              element={!authUser ? <Register /> : <Navigate to="/login" />}
             />
             <Route
               path="/settings"
