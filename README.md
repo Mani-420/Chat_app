@@ -63,17 +63,19 @@ https://github.com/Mani-420/Chat_app/assets/your-video.mp4
 
 ## 📱 Screenshots
 
-### Chat Interface
-![Chat Interface](https://github.com/Mani-420/Chat_app/assets/chat-interface.png)
+![Image](https://github.com/user-attachments/assets/48ff8224-b1dc-470d-9ec7-79444244f840)
 
-### AI Chat Feature
-![AI Chat](https://github.com/Mani-420/Chat_app/assets/ai-chat.png)
+![Image](https://github.com/user-attachments/assets/6f567c0c-350a-4721-8d42-f89834c395dc)
 
-### User Profile
-![Profile Page](https://github.com/Mani-420/Chat_app/assets/profile-page.png)
+![Image](https://github.com/user-attachments/assets/5ef99197-52b3-4ae9-88f3-ede0e3db2ab1)
 
-### Mobile Responsive
-![Mobile View](https://github.com/Mani-420/Chat_app/assets/mobile-view.png)
+![Image](https://github.com/user-attachments/assets/1317eadd-bb04-42e5-bf39-493958fbfbcb)
+
+![Image](https://github.com/user-attachments/assets/d9c474c5-56aa-4c3c-9f92-023d33f37450)
+
+![Image](https://github.com/user-attachments/assets/fd5d7fd1-0cc4-49d1-9e54-4829d57554d0)
+
+![Image](https://github.com/user-attachments/assets/64c0716f-6ba3-4110-9303-20bd748a49bb)
 
 ## 🚀 Quick Start
 
