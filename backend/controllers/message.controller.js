@@ -23,7 +23,7 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 
 export const getMessages = asyncHandler(async (req, res) => {
   const { id: userToOther } = req.params;
-  const senderId = req.user._id;
+  const myId = req.user._id;
 
   if (!userToOther) {
     throw new ApiError('User ID is required', 400);
@@ -36,8 +36,8 @@ export const getMessages = asyncHandler(async (req, res) => {
 
   const messages = await Message.find({
     $or: [
-      { sender: senderId, receiver: userToOther },
-      { sender: userToOther, receiver: senderId }
+      { senderId: myId, receiverId: userToOther },
+      { senderId: userToOther, receiverId: myId }
     ]
   })
     .sort({ createdAt: 1 })
