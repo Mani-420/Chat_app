@@ -174,6 +174,9 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 
     if (incomingRefreshToken !== user?.refreshToken) {
+      await User.findByIdAndUpdate(user._id, {
+        $unset: { refreshToken: 1 }
+      });
       throw new ApiError(401, 'Refresh token is expired or used');
     }
 
