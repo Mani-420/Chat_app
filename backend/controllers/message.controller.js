@@ -41,8 +41,8 @@ export const getMessages = asyncHandler(async (req, res) => {
     ]
   })
     .sort({ createdAt: 1 })
-    .populate('sender', 'username profilePic')
-    .populate('receiver', 'username profilePic');
+    .populate('senderId', 'username profilePic')
+    .populate('receiverId', 'username profilePic');
 
   if (messages.length === 0) {
     return res.status(200).json(new ApiResponse(200, [], 'No messages found'));

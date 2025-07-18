@@ -3,6 +3,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import AiChat from '../models/aiChat.model.js';
 import AIService from '../services/ai.service.js';
+import { getReceiverSocketId, io } from '../socket/socketHandler.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const sendMessageToAI = asyncHandler(async (req, res) => {
@@ -30,6 +31,11 @@ const sendMessageToAI = asyncHandler(async (req, res) => {
     aiChat.messages.push({ role: 'assistant', content: aiResponse });
 
     await aiChat.save();
+
+    const userSocketId = getReceiverSocketId(userId);
+    if (userSocketId) {
+      io.to(userSocketId).emit('aiMessage', aiChat.messages);
+    }
 
     res
       .status(200)
