@@ -100,15 +100,16 @@ export const useAuthStore = create((set, get) => ({
   connectSocket: () => {
     const { authUser } = get();
 
+    if (!authUser || get().socket?.connected) {
+      return; // Don't connect if not authenticated
+    }
+
     const userId = authUser?.user?._id || authUser._id;
     if (!userId) {
       console.log('No user ID found, cannot connect socket');
       return;
     }
 
-    if (!authUser || get().socket?.connected) {
-      return; // Don't connect if not authenticated
-    }
     const socket = io(BASE_URL, {
       query: { userId: userId }
     });
