@@ -37,6 +37,7 @@ const userSchema = new Schema(
   }
 );
 
+// Hash password before saving user
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
@@ -44,10 +45,12 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// Check if password is correct
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcryptjs.compare(password, this.password);
 };
 
+// Generate access tokens
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
@@ -62,6 +65,7 @@ userSchema.methods.generateAccessToken = function () {
   );
 };
 
+// Generate refresh tokens
 userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
