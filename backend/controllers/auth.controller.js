@@ -5,6 +5,7 @@ import { User } from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../utils/cloudinary.js';
 
+// get token models from user model
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
