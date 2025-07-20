@@ -8,9 +8,8 @@ import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
-// Protected routes
-router.route('/users').get(verifyJWT, getAllUsers);
-router.route('/:id').get(verifyJWT, getMessages);
-router.route('/send/:id').post(verifyJWT, sendMessage);
+router.route('/users').get(verifyJWT, getAllUsers); // Protected route
+router.route('/:id').get(verifyJWT, getMessages); // Protected route
+router.route('/send/:id').post(verifyJWT, sendMessage); // Protected route
 
 export default router;
